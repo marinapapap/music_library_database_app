@@ -110,6 +110,28 @@ describe Application do
     end
   end
 
+  context "GET /artists/new" do
+    it "returns 200 ok and the form page" do
+      response = get('artists/new')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="POST" action="/artists">')
+      expect(response.body).to include('<input type="text" name="name" />')
+      expect(response.body).to include('<input type="text" name="genre" />')
+    end
+  end
+
+  context "POST /artists" do
+    it 'returns 200 OK' do
+  
+      response = post('/artists', name: 'Wild nothing', genre: 'indie')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>You saved Artist: Wild nothing</h1>')
+    end
+  end
+
+
   context "GET /artists/:id" do
     it "returns 200 ok and artist info with given id" do
 
@@ -127,18 +149,5 @@ describe Application do
     end
   end
 
-  context "POST /artists" do
-    it 'returns 200 OK' do
   
-      response = post('/artists', name: 'Wild nothing', genre: 'indie')
-
-      expect(response.status).to eq(200)
-      expect(response.body).to eq("")
-
-      response = get('/artists')
-      expect(response.body).to include('nothing')
-    end
-
-  end
-
 end
