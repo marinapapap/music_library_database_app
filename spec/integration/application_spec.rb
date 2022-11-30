@@ -24,16 +24,37 @@ describe Application do
 
 
 
-  context "POST /albums" do
-    it 'returns 200 OK' do
-      # Assuming the post with id 1 exists.
-      response = post('/albums', title: 'Voyage', release_year: '2022', artist_id: '2')
+  # context "POST /albums" do
+  #   it 'returns 200 OK' do
+  #     # Assuming the post with id 1 exists.
+  #     response = post('/albums', title: 'Voyage', release_year: '2022', artist_id: '2')
+
+  #     expect(response.status).to eq(200)
+  #     expect(response.body).to eq("")
+
+  #     response = get('/albums')
+  #     expect(response.body).to include('Voyage')
+  #   end
+  # end
+
+  context "GET /albums/new" do
+    it "returns 200 ok and the form page" do
+      response = get('albums/new')
 
       expect(response.status).to eq(200)
-      expect(response.body).to eq("")
+      expect(response.body).to include('<form method="POST" action="/albums">')
+      expect(response.body).to include('<input type="text" name="title" />')
+      expect(response.body).to include('<input type="text" name="release_year" />')
+      expect(response.body).to include('<input type="text" name="artist_id" />')
+    end
+  end
 
-      response = get('/albums')
-      expect(response.body).to include('Voyage')
+  context "POST /albums" do
+    it "returns 200 ok an message" do
+      response = post('/albums', title: 'Album 1', release_year: '1990', artist_id: '1')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>You saved Album: Album 1</h1>')
     end
   end
 
