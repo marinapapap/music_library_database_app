@@ -35,7 +35,19 @@ describe Application do
       response = get('/albums')
       expect(response.body).to include('Voyage')
     end
+  end
 
+  context "GET /albums/:id" do
+    it "returns 200 ok and album info with given id" do
+
+      response = get('/albums/1')
+
+      # expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Doolittle</h1>')
+      expect(response.body).to include('Release year: 1989')
+      expect(response.body).to include('Artist: Pixies')
+
+    end
   end
 
   context "GET /albums" do
@@ -43,10 +55,14 @@ describe Application do
 
       response = get('/albums')
 
-      expected_response = 'Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
+      # expected_response = 'Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
 
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include('<h1>Albums</h1>')
+      expect(response.body).to include('<a href="/albums/1">Doolittle</a>')
+      expect(response.body).to include('Released: 1988')
+      expect(response.body).to include('<a href="/albums/2">Surfer Rosa</a>')
+      
     end
 
   end
@@ -57,10 +73,30 @@ describe Application do
    
       response = get('/artists')
 
-      expected_response = 'Pixies, ABBA, Taylor Swift, Nina Simone'
 
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include('<h1>Artists</h1>')
+      expect(response.body).to include('<b>Pixies</b>')
+      expect(response.body).to include('<b>Taylor Swift</b>')
+
+      expect(response.body).to include('<a href="/artists/1"><b>Pixies</b></a>')
+    end
+  end
+
+  context "GET /artists/:id" do
+    it "returns 200 ok and artist info with given id" do
+
+      response = get('/artists/1')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Pixies</h1>')
+      expect(response.body).to include('Genre: Rock')
+
+      expect(response.body).to include('Doolittle -')
+      expect(response.body).to include('1989')
+      
+      expect(response.body).to include('Surfer Rosa -')
+      expect(response.body).to include('1988')
     end
   end
 

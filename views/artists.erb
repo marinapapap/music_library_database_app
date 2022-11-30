@@ -1,0 +1,17 @@
+<html>
+  <head></head>
+  <body>
+    <h1><%= @artist.name %></h1>
+    <p>
+      Genre: <%= @artist.genre %>
+    </p>
+
+    <h3>Albums</h3>
+    <% @albums.each do |album| %>
+      <div>
+        <%= album.title %> -
+        <%= album.release_year %>
+      </div>
+      <% end %>
+  </body>
+</html>
