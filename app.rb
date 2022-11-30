@@ -35,6 +35,12 @@ class Application < Sinatra::Base
   end
 
   post '/albums' do
+    if params[:title] == nil || params[:release_year] == nil || params[:artist_id] == nil
+      status 400
+      return ''
+    end
+
+
     @album_name = params[:title]
 
     repo = AlbumRepository.new

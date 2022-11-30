@@ -50,6 +50,12 @@ describe Application do
   end
 
   context "POST /albums" do
+    it "should validate albums params" do
+      response = post('/albums', invalid_title: "Artist", another_invalid_thing: 123)
+
+      expect(response.status).to eq(400)
+    end
+
     it "returns 200 ok an message" do
       response = post('/albums', title: 'Album 1', release_year: '1990', artist_id: '1')
 
